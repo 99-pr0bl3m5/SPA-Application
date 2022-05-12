@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Link, Typography } from "@mui/material";
+
 function HomePage() {
   return (
-    <>
-      <Container>
-        <Box>
-          <Typography>
-            <Link>ABC</Link>
-          </Typography>
-        </Box>
-      </Container>
-    </>
+    <Container>
+      <Link href="/login">LOGIN</Link>
+      <Link href="/register">Register</Link>
+    </Container>
   );
 }
 
