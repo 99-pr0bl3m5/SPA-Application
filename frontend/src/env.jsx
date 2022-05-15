@@ -3,8 +3,8 @@ const APP_CONFIG = {
     WEB_API: "http://localhost:8000",
   },
   PROD: {
-    WEB_API: "",
+    WEB_API: "http://api.spa.local",
   },
 };
 
-export const APP_SETTING = APP_CONFIG.DEV;
+export const APP_SETTING = APP_CONFIG.PROD;
