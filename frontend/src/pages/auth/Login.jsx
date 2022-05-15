@@ -8,11 +8,12 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SessionAPI from "../../apis/SessionAPI";
 
 function Copyright(props) {
   return (
@@ -35,13 +36,17 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
+
+    const payload = {
+      username: data.get("email"),
       password: data.get("password"),
-    });
+    };
+
+    await SessionAPI.Login(payload).then((data) => console.log(data));
   };
 
   return (

@@ -14,7 +14,7 @@ const tokenGen = function () {
   return rand() + rand();
 };
 
-app.post("/signin", async (req, res) => {
+app.post("/register", async (req, res) => {
   let resStatus = 200;
   let resMessage = "Success";
 
