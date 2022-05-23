@@ -1,6 +1,7 @@
 import LoginPage from "../pages/auth/Login";
 import RegisterPage from "../pages/auth/Register";
 import HomePage from "../pages/home/Home";
+import RandomPage from "../pages/RandomPage";
 export const PAGES = [
   {
     ID: 0,
@@ -16,5 +17,10 @@ export const PAGES = [
     ID: 2,
     PAGE_PATH: "/register",
     PAGE_COMPONENT: <RegisterPage />,
+  },
+  {
+    ID: 3,
+    PAGE_PATH: "/home",
+    PAGE_COMPONENT: <RandomPage />,
   },
 ];

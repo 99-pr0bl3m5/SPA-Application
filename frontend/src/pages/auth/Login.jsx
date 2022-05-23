@@ -14,6 +14,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
 
+import SessionAPI from "../../apis/SessionAPI";
+
 function Copyright(props) {
   return (
     <Typography
@@ -44,7 +46,7 @@ export default function SignIn() {
     const password = btoa(data.get("password"));
 
     if (validateEmail(email) && password.length > 4) {
-      //axios here then
+      SessionAPI.Login({ email, password });
       if (remember) RememberMe(email, password);
       setIsError(false);
     } else setIsError(true);
