@@ -23,24 +23,31 @@ export default function RandomPage() {
     if (isSelected) {
       myTimeout = setTimeout(() => {
         if (isSelected) setIsSelected(false);
-      }, 5000);
+      }, 60000);
     }
   }, [isSelected]);
 
   async function randomPokemon() {
     const pokeNumber = Math.floor(Math.random() * 1125);
     const data = await PokeAPI.getPoke(pokeNumber);
-    console.log("PokeAPI", data);
+    let allType = [];
+
+    data.types.forEach((element) => {
+      console.log(element.type.name);
+      allType.push(element.type.name);
+    });
+
+    console.log("PokeAPI", data, allType);
 
     clearTimeout(myTimeout);
     setCurrentPokemon({
-      name: data.name,
+      name: data.name.toUpperCase(),
       species: data.species.name,
       img: data.sprites.front_default,
       hp: data.stats[0].base_stat,
       attack: data.stats[1].base_stat,
       defense: data.stats[2].base_stat,
-      type: data.types[0].type.name,
+      type: allType,
     });
     setIsSelected(true);
   }
@@ -51,7 +58,7 @@ export default function RandomPage() {
 
       <Container
         sx={{
-          marginTop: "10vh",
+          marginTop: "5vh",
           marginBottom: "10vh",
           display: "flex",
           flexDirection: "column",
@@ -59,10 +66,15 @@ export default function RandomPage() {
         }}
       >
         {isSelected ? (
-          <PokemonCard />
+          <PokemonCard poke={currentPokemon} />
         ) : (
           <CatchingPokemonIcon
-            sx={{ color: "#F71B1B", fontSize: "15vw", marginBottom: 1 }}
+            sx={{
+              marginTop: "15vh",
+              color: "#F71B1B",
+              fontSize: "15vw",
+              marginBottom: 1,
+            }}
           />
         )}
         <Button variant="outlined" onClick={() => randomPokemon()}>

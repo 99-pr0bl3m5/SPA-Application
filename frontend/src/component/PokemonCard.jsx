@@ -1,64 +1,137 @@
 import React from "react";
 import "./card.scss";
+import { styled } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
 
-function PokemonCard() {
-  return (
+const PokemonCard = ({ poke }) => {
+  console.log("POKE POKE MON", poke);
+
+  const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+    height: 10,
+    width: "60%",
+    borderRadius: 5,
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+      backgroundColor:
+        theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+      borderRadius: 5,
+      backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+    },
+  }));
+
+  const colorOfType = {
+    ghost: "#916693",
+    grass: "#21CE4F",
+    dark: "#5A587D",
+    electric: "#E3E22E",
+    bug: "#3C9950",
+    fairy: "#DB1B67",
+    water: "#85A8FC",
+    flying: "#152630",
+    normal: "#CA98A7",
+    rock: "#5D2F1C",
+    steel: "#42BE94",
+    fire: "#8F1D1B",
+    psychic: "#F91C96",
+    ground: "#A47130",
+    fighting: "#F36136",
+    dragon: "#61CBDB",
+    ice: "#D2F2FF",
+    poison: "#B9ABC1",
+  };
+
+  return poke.name ? (
     <div className="contenedorCards">
       <div className="card">
         <div className="wrapper">
-          <div className="colorProd"></div>
+          <div
+            className="colorProd"
+            style={{
+              backgroundColor: poke.type.length
+                ? colorOfType[poke.type[0]]
+                : "#CF9CAB",
+            }}
+          ></div>
           <div
             className="imgProd"
             style={{
-              backgroundImage:
-                "url(https://firebasestorage.googleapis.com/v0/b/fotos-3cba1.appspot.com/o/batman.png?alt=media&token=bcce964a-7224-4e47-b619-265e93b5311e)",
+              backgroundImage: poke.img
+                ? `url(${poke.img})`
+                : `url(https://www.svgrepo.com/show/126178/question-mark.svg)`,
             }}
           ></div>
           <div className="infoProd">
-            <p className="nombreProd">
-              ARTFX DC UNIVERSE Batman HUSH Renewal Package
+            <p className="nombreProd">{poke.name}</p>
+            <p className="extraInfo">
+              <strong>Species : </strong>
+              {poke.species}
             </p>
-            <p className="extraInfo">Fecha de salida: 31/03/2021</p>
-            <div className="actions">
-              <div className="preciosGrupo">
-                <p className="precio precioOferta">9,999</p>
-                <p className="precio precioProd">9,999</p>
-              </div>
-              <div className="icono action aFavs">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-                  <path d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"></path>
-                </svg>
-              </div>
-              <div className="icono action alCarrito">
-                <svg
-                  className="inCart"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 64 64"
-                >
-                  <title>Quitar del carrito</title>
-                  <path d="M30 22H12M2 6h6l10 40h32l3.2-9.7"></path>
-                  <circle cx="20" cy="54" r="4"></circle>
-                  <circle cx="46" cy="54" r="4"></circle>
-                  <circle cx="46" cy="22" r="16"></circle>
-                  <path d="M53 18l-8 9-5-5"></path>
-                </svg>
-                <svg
-                  className="outCart"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 64 64"
-                >
-                  <title>Agregar al carrito</title>
-                  <path d="M2 6h10l10 40h32l8-24H16"></path>
-                  <circle cx="23" cy="54" r="4"></circle>
-                  <circle cx="49" cy="54" r="4"></circle>
-                </svg>
-              </div>
-            </div>
+            <p className="extraInfo">
+              <strong>Type : </strong>{" "}
+              {poke.type ? poke.type.join(" , ") : "can't define their type"}
+            </p>
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <p className="statusInfo">
+                <strong>HP : </strong> {poke.hp}
+              </p>
+              <BorderLinearProgress
+                variant="determinate"
+                value={(poke.hp / 300) * 100}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <p className="statusInfo">
+                <strong>Attack : </strong> {poke.attack}
+              </p>
+              <BorderLinearProgress
+                variant="determinate"
+                value={(poke.attack / 200) * 100}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <p className="statusInfo">
+                <strong>Defense : </strong> {poke.defense}
+              </p>
+              <BorderLinearProgress
+                variant="determinate"
+                value={(poke.defense / 700) * 100}
+              />
+            </Box>
           </div>
         </div>
       </div>
     </div>
+  ) : (
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress />
+    </Box>
   );
-}
+};
 
 export default PokemonCard;
