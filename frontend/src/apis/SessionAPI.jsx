@@ -1,7 +1,6 @@
-import { Component } from "react";
 import axios from "axios";
 
-class SessionAPI extends Component {
+class SessionAPI {
   static Login = async (payload) => {
     try {
       const result = await axios({
@@ -9,7 +8,7 @@ class SessionAPI extends Component {
         url: "api/Session/login",
         data: payload,
       });
-
+      //useUser
       return result.data;
     } catch (error) {
       console.log(error.message);

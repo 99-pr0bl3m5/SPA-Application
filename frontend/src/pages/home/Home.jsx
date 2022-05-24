@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Link, Typography } from "@mui/material";
+import { userContext, useUser, userProvider } from "../../context/useUser";
+
 function HomePage() {
+  const currency = useUser();
+
   return (
-    <>
-      <Container>
-        <Box>
-          <Typography>
-            <Link>ABC</Link>
-          </Typography>
-        </Box>
-      </Container>
-    </>
+    <Container>
+      <userProvider>
+        <Link href="/login">Login</Link>
+        <Link href="/register">Register</Link>
+        <Link href="/home">Home</Link>
+      </userProvider>
+    </Container>
   );
 }
 
