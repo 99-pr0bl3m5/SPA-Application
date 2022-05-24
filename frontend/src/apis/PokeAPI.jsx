@@ -10,10 +10,32 @@ class PokeAPI {
       console.log(error.message);
     }
   };
-  static getAllPoke = async () => {
+
+  static addPokemon = async (token, payload) => {
     try {
-      const result = await axios.get("http://localhost:5001/api/pokemon");
-      return result.data;
+      // console.log("p", payload);
+      const result = await axios.post(
+        "http://localhost:5001/api/pokemon",
+        payload,
+        {
+          headers: { token: token },
+        }
+      );
+
+      // console.log(result);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  static getAllPoke = async (token) => {
+    try {
+      const result = await axios({
+        method: "GET",
+        url: "http://localhost:5001/api/pokemon",
+        headers: { token: token },
+      });
+      return result.data.resMessage;
     } catch (error) {
       console.log(error.message);
     }

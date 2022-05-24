@@ -6,10 +6,10 @@ import Box from "@mui/material/Box";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
+import { Container } from "@mui/material";
+import { border, borderRadius } from "@mui/system";
 
 const PokemonCard = ({ poke }) => {
-  console.log("POKE POKE MON", poke);
-
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
     width: "60%",
@@ -46,91 +46,116 @@ const PokemonCard = ({ poke }) => {
   };
 
   return poke.name ? (
-    <div className="contenedorCards">
-      <div className="card">
-        <div className="wrapper">
-          <div
-            className="colorProd"
-            style={{
-              backgroundColor: poke.type.length
-                ? colorOfType[poke.type[0]]
-                : "#CF9CAB",
-            }}
-          ></div>
-          <div
-            className="imgProd"
-            style={{
-              backgroundImage: poke.img
-                ? `url(${poke.img})`
-                : `url(https://www.svgrepo.com/show/126178/question-mark.svg)`,
-            }}
-          ></div>
-          <div className="infoProd">
-            <p className="nombreProd">{poke.name}</p>
-            <p className="extraInfo">
-              <strong>Species : </strong>
-              {poke.species}
-            </p>
-            <p className="extraInfo">
-              <strong>Type : </strong>{" "}
-              {poke.type ? poke.type.join(" , ") : "can't define their type"}
-            </p>
-            <Box
-              sx={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "start",
-                alignItems: "center",
+    <div style={{ position: "relative" }}>
+      {poke.count ? (
+        <Box
+          sx={{
+            position: "absolute",
+            backgroundColor: "primary.main",
+            width: 32,
+            height: 32,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "50%",
+            fontWeight: "bold",
+            right: 0,
+            top: 16,
+            color: "white",
+            zIndex: 1,
+          }}
+        >
+          {poke.count}
+        </Box>
+      ) : (
+        <></>
+      )}
+      <div className="contenedorCards">
+        <div className="card">
+          <div className="wrapper">
+            <div
+              className="colorProd"
+              style={{
+                backgroundColor: poke.type.length
+                  ? colorOfType[poke.type[0]]
+                  : "#CF9CAB",
               }}
-            >
-              <p className="statusInfo">
-                <strong>HP : </strong> {poke.hp}
-              </p>
-              <BorderLinearProgress
-                variant="determinate"
-                value={(poke.hp / 300) * 100}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "start",
-                alignItems: "center",
+            ></div>
+            <div
+              className="imgProd"
+              style={{
+                backgroundImage: poke.img
+                  ? `url(${poke.img})`
+                  : `url(https://www.svgrepo.com/show/126178/question-mark.svg)`,
               }}
-            >
-              <p className="statusInfo">
-                <strong>Attack : </strong> {poke.attack}
+            ></div>
+            <div className="infoProd">
+              <p className="nombreProd">{poke.name}</p>
+              <p className="extraInfo">
+                <strong>Species : </strong>
+                {poke.species}
               </p>
-              <BorderLinearProgress
-                variant="determinate"
-                value={(poke.attack / 200) * 100}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "start",
-                alignItems: "center",
-              }}
-            >
-              <p className="statusInfo">
-                <strong>Defense : </strong> {poke.defense}
+              <p className="extraInfo">
+                <strong>Type : </strong>{" "}
+                {poke.type ? poke.type.join(" , ") : "can't define their type"}
               </p>
-              <BorderLinearProgress
-                variant="determinate"
-                value={(poke.defense / 700) * 100}
-              />
-            </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "start",
+                  alignItems: "center",
+                }}
+              >
+                <p className="statusInfo">
+                  <strong>HP : </strong> {poke.hp}
+                </p>
+                <BorderLinearProgress
+                  variant="determinate"
+                  value={(poke.hp / 300) * 100}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "start",
+                  alignItems: "center",
+                }}
+              >
+                <p className="statusInfo">
+                  <strong>Attack : </strong> {poke.attack}
+                </p>
+                <BorderLinearProgress
+                  variant="determinate"
+                  value={(poke.attack / 200) * 100}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "start",
+                  alignItems: "center",
+                }}
+              >
+                <p className="statusInfo">
+                  <strong>Defense : </strong> {poke.defense}
+                </p>
+                <BorderLinearProgress
+                  variant="determinate"
+                  value={(poke.defense / 700) * 100}
+                />
+              </Box>
+            </div>
           </div>
         </div>
       </div>
     </div>
   ) : (
-    <Box sx={{ display: "flex" }}>
+    <Container sx={{ display: "flex", alignSelf: "center", margin: "3%" }}>
       <CircularProgress />
-    </Box>
+    </Container>
   );
 };
 

@@ -31,7 +31,7 @@ app.post("/signup", async (req, res) => {
       res.status(resStatus).send({ resMessage });
     }
 
-    let newUser = userModel({
+    let newUser = new userModel({
       name: _name,
       userName: _userName,
       password: _password,
@@ -63,60 +63,67 @@ app.post("/signin", async (req, res) => {
       resStatus = 400;
       resMessage = "user not found";
       res.status(resStatus).send({ resMessage });
-    }
+    } else {
+      await tokenModel.deleteMany({ userId: user._id });
+      let newToken = new tokenModel({
+        tokenSting: tokenGen(),
+        userId: user._id,
+      });
+      await newToken.save();
 
-    await tokenModel.deleteMany({ userId: user._id });
-    let newToken = tokenModel({ tokenSting: tokenGen(), userId: user._id });
+      resMessage = newToken.tokenSting;
+      let name = user.name;
+
+      res.status(resStatus).send({ resMessage, name });
+    }
+  } catch {
+    res.status(400).send({ resMessage: "BAD REQUEST" });
+  }
+});
+
+app.post("/signout", authentication, async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    await tokenModel.deleteMany({ userId });
+
+    const newToken = new tokenModel({ tokenSting: tokenGen(), userId });
+
     await newToken.save();
 
-    resMessage = newToken.tokenSting;
-    let name = user.name;
-
-    res.status(resStatus).send({ resMessage, name });
+    res.status(200).send({ resMessage: "SUCCESS" });
   } catch {
     res.status(400).send({ resMessage: "BAD REQUEST" });
   }
 });
 
 app.post("/pokemon", authentication, async (req, res) => {
+  const pokemonName = req.body.name;
+  const userId = req.body.userId;
   try {
-    let resStatus = 200;
-    let resMessage = "Success";
-
-    const curUser = await userModel.findOne({ _id: req.body.userId });
-
-    const _name = req.body.name;
-
-    // console.log(`name : ${_name} , id : ${req.body.userModel}`);
-
-    let curPokemon = await pokemonModel.findOne({
-      ownerId: req.body.userId,
-      name: _name,
+    const targetPokemon = await pokemonModel.findOne({
+      ownerId: userId,
+      name: pokemonName,
     });
-
-    if (curPokemon == null) {
-      console.log("CREATE NEW");
-      curPokemon = new pokemonModel({
-        ownerId: req.body.userId,
-        name: _name,
+    if (!targetPokemon) {
+      const newPokemon = new pokemonModel({
+        ownerId: userId,
+        name: pokemonName,
         count: 1,
       });
-      await curPokemon.save();
+      await newPokemon.save();
     } else {
-      console.log("FOUND");
       await pokemonModel.findOneAndUpdate(
         {
-          ownerId: req.body.userId,
-          name: _name,
+          ownerId: userId,
+          name: pokemonName,
         },
         {
-          count: curPokemon["count"] + 1,
+          count: targetPokemon["count"] + 1,
         }
       );
     }
 
-    // console.log(`cur user ${curUser}`);
-    res.status(resStatus).send({ resMessage });
+    res.status(200).send({ resMessage: "SUCCESS" });
   } catch {
     res.status(400).send({ resMessage: "BAD REQUEST" });
   }

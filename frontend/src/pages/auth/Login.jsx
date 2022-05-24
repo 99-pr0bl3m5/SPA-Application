@@ -9,12 +9,14 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
 
 import SessionAPI from "../../apis/SessionAPI";
+import { useContext } from "react";
+import { userContext } from "../../context/useUser";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -38,21 +40,34 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-  const [isError, setIsError] = React.useState(false);
+  const { currentUser, setCurrentUser } = useContext(userContext);
 
-  const handleSubmit = (event) => {
+  const [isError, setIsError] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const remember = data.get("remember") === "on";
     const email = data.get("email");
-    const password = btoa(data.get("password"));
+    const password = data.get("password");
 
-    if (validateEmail(email) && password.length > 4) {
-      SessionAPI.Login({ username: email, password });
-      if (remember) RememberMe(email, password);
-      setIsError(false);
-    } else setIsError(true);
+    if (validateEmail(email) && password.length >= 4) {
+      const res = await SessionAPI.Login({ username: email, password });
+      if (res) {
+        setCurrentUser({ token: res.resMessage, name: res.name });
+        localStorage.setItem("token", res.resMessage);
+        localStorage.setItem("name", res.name);
+        if (remember) RememberMe(email, password);
+        setIsError(false);
+        navigate("/home");
+      } else {
+        setIsError(true);
+      }
+    } else {
+      setIsError(true);
+    }
   };
 
   const RememberMe = (user, pass) => {
