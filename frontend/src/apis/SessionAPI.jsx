@@ -5,7 +5,7 @@ class SessionAPI {
     try {
       const result = await axios({
         method: "POST",
-        url: "api/Session/login",
+        url: "http://localhost:5001/api/login",
         data: payload,
       });
       //useUser
@@ -19,11 +19,11 @@ class SessionAPI {
     try {
       const result = await axios({
         method: "POST",
-        url: "api/Session/register",
+        url: "http://localhost:5001/api/register",
         data: payload,
       });
 
-      return result.data;
+      return result.resMessage === "Success" || false;
     } catch (error) {
       console.log(error.message);
     }

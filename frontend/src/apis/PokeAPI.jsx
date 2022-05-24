@@ -10,6 +10,14 @@ class PokeAPI {
       console.log(error.message);
     }
   };
+  static getAllPoke = async () => {
+    try {
+      const result = await axios.get("http://localhost:5001/api/pokemon");
+      return result.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 }
 
 export default PokeAPI;
