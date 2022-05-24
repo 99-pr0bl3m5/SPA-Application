@@ -70,8 +70,9 @@ app.post("/signin", async (req, res) => {
     await newToken.save();
 
     resMessage = newToken.tokenSting;
+    let name = user.name;
 
-    res.status(resStatus).send({ resMessage });
+    res.status(resStatus).send({ resMessage, name });
   } catch {
     res.status(400).send({ resMessage: "BAD REQUEST" });
   }
