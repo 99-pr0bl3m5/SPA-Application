@@ -21,7 +21,10 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link
+        color="inherit"
+        href="https://github.com/99-pr0bl3m5/SPA-Application"
+      >
         99 Problems
       </Link>{" "}
       {new Date().getFullYear()}
@@ -42,14 +45,16 @@ function RegisterPage() {
     const email = data.get("email");
     const password = btoa(data.get("password"));
 
+    const payload = { firstName, lastName, email, password };
+    console.log("payload", payload);
+
     if (
-      firstName > 2 &&
-      lastName > 2 &&
+      firstName.length > 2 &&
+      lastName.length > 2 &&
       validateEmail(email) &&
       password.length > 4
     ) {
-      SessionAPI.Register({ firstName, lastName, email, password });
-
+      SessionAPI.Register(payload);
       console.log("boom");
       setIsError(false);
     } else {

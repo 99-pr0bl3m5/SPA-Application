@@ -11,6 +11,7 @@ function HomePage() {
         <Link href="/login">Login</Link>
         <Link href="/register">Register</Link>
         <Link href="/home">Home</Link>
+        <Link href="/Profile">Profile</Link>
       </userProvider>
     </Container>
   );
