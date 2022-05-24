@@ -23,7 +23,7 @@ class SessionAPI {
         data: payload,
       });
 
-      return result.data;
+      return result.resMessage === "Success" || false;
     } catch (error) {
       console.log(error.message);
     }

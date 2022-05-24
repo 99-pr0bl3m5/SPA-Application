@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -34,9 +35,19 @@ function Copyright(props) {
 }
 
 function RegisterPage() {
-  const [isError, setIsError] = React.useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsOpen(false);
+      navigate("/login");
+    }, 10000);
+  }, [isOpen]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -45,7 +56,11 @@ function RegisterPage() {
     const email = data.get("email");
     const password = btoa(data.get("password"));
 
-    const payload = { firstName, lastName, email, password };
+    const payload = {
+      name: firstName + " " + lastName,
+      username: email,
+      password: password,
+    };
     console.log("payload", payload);
 
     if (
@@ -54,9 +69,9 @@ function RegisterPage() {
       validateEmail(email) &&
       password.length > 4
     ) {
-      SessionAPI.Register(payload);
-      console.log("boom");
-      setIsError(false);
+      const res = await SessionAPI.Register(payload);
+      setIsOpen(true);
+      setIsError(res);
     } else {
       setIsError(true);
     }
@@ -74,11 +89,11 @@ function RegisterPage() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Alert
-        severity="error"
+        severity={isError ? "error" : "success"}
         spacing={2}
-        sx={{ visibility: isError ? "visible" : "hidden" }}
+        sx={{ visibility: isOpen ? "visible" : "hidden" }}
       >
-        Please check your input
+        {isError ? "Please check your input" : "Sign up success"}
       </Alert>
 
       <Box

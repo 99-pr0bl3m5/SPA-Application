@@ -49,7 +49,7 @@ export default function SignIn() {
     const password = btoa(data.get("password"));
 
     if (validateEmail(email) && password.length > 4) {
-      SessionAPI.Login({ email, password });
+      SessionAPI.Login({ username: email, password });
       if (remember) RememberMe(email, password);
       setIsError(false);
     } else setIsError(true);
