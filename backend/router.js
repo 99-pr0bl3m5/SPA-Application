@@ -16,7 +16,7 @@ const tokenGen = function () {
   return rand() + rand();
 };
 
-app.post("/signin", async (req, res) => {
+app.post("/signup", async (req, res) => {
   try {
     let resStatus = 200;
     let resMessage = "Success";
@@ -45,7 +45,7 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/signin", async (req, res) => {
   try {
     let resStatus = 200;
     let resMessage = "Success";
@@ -55,7 +55,7 @@ app.post("/login", async (req, res) => {
     let _password = reqBody.password;
 
     let user = await userModel.findOne({
-      name: _userName,
+      username: _userName,
       password: _password,
     });
 
