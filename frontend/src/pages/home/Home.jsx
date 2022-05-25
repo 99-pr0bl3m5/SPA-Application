@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Container, Link, Typography } from "@mui/material";
 
 function HomePage() {

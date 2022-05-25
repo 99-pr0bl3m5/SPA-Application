@@ -63,7 +63,6 @@ function RegisterPage() {
       username: email,
       password: password,
     };
-    console.log("payload", payload);
 
     if (
       firstName.length > 2 &&
@@ -74,6 +73,7 @@ function RegisterPage() {
       const res = await SessionAPI.Register(payload);
       setIsError(res);
     } else {
+      setIsOpen(true);
       setIsError(true);
     }
     setIsOpen(true);
