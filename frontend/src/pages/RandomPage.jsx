@@ -17,7 +17,7 @@ import PokemonCard from "../component/PokemonCard";
 export default function RandomPage() {
   const [currentPokemon, setCurrentPokemon] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
-  let myTimeout = "";
+  let myTimeout;
 
   useEffect(() => {
     if (isSelected) {
@@ -27,19 +27,17 @@ export default function RandomPage() {
     }
   }, [isSelected]);
 
-  async function randomPokemon() {
+  const randomPokemon = async () => {
     const pokeNumber = Math.floor(Math.random() * 1125);
     const data = await PokeAPI.getPoke(pokeNumber);
-    let allType = [];
+    let allType = data.types.map((e) => e.type.name);
 
-    data.types.forEach((element) => {
-      console.log(element.type.name);
-      allType.push(element.type.name);
-    });
-
-    console.log("PokeAPI", data, allType);
+    // data.types.forEach((element) => {
+    //   allType.push(element.type.name);
+    // });
 
     clearTimeout(myTimeout);
+
     setCurrentPokemon({
       name: data.name.toUpperCase(),
       species: data.species.name,
@@ -49,8 +47,9 @@ export default function RandomPage() {
       defense: data.stats[2].base_stat,
       type: allType,
     });
+
     setIsSelected(true);
-  }
+  };
 
   return (
     <Box>

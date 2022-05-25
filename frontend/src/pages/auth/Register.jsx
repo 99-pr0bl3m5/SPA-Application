@@ -41,10 +41,12 @@ function RegisterPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsOpen(false);
-      navigate("/login");
-    }, 10000);
+    if (isOpen) {
+      setTimeout(() => {
+        setIsOpen(false);
+        navigate("/login");
+      }, 10000);
+    }
   }, [isOpen]);
 
   const handleSubmit = async (event) => {
@@ -54,7 +56,7 @@ function RegisterPage() {
     const firstName = data.get("firstName");
     const lastName = data.get("lastName");
     const email = data.get("email");
-    const password = btoa(data.get("password"));
+    const password = data.get("password");
 
     const payload = {
       name: firstName + " " + lastName,
@@ -67,14 +69,14 @@ function RegisterPage() {
       firstName.length > 2 &&
       lastName.length > 2 &&
       validateEmail(email) &&
-      password.length > 4
+      password.length >= 4
     ) {
       const res = await SessionAPI.Register(payload);
-      setIsOpen(true);
       setIsError(res);
     } else {
       setIsError(true);
     }
+    setIsOpen(true);
   };
 
   const validateEmail = (email) => {
