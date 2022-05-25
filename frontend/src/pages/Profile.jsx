@@ -21,7 +21,7 @@ const getAllPoke = async (token) => {
   try {
     const result = await axios({
       method: "GET",
-      url: "http://localhost:5001/api/pokemon",
+      url: "api/pokemon",
       headers: { token: token },
     });
     return result.data.resMessage;
