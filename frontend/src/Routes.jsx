@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { PAGES } from "./models/routerModel";
+import { PAGES } from "./models/RouterModel";
 
 const RoutesIndex = () => {
 

@@ -3,9 +3,10 @@ import axios from "axios";
 class SessionAPI {
   static Login = async (payload) => {
     try {
+      console.log(`Posting to : ${axios.defaults.baseURL}/api/signin`);
       const result = await axios({
         method: "POST",
-        url: "http://localhost:5001/api/signin",
+        url: "api/signin",
         data: payload,
       });
 
@@ -18,9 +19,10 @@ class SessionAPI {
 
   static Register = async (payload) => {
     try {
+      console.log(`Posting to : ${axios.defaults.baseURL}/api/signup`);
       const result = await axios({
         method: "POST",
-        url: "http://localhost:5001/api/signup",
+        url: "api/signup",
         data: payload,
       });
 
@@ -32,9 +34,10 @@ class SessionAPI {
 
   static Logout = async (token) => {
     try {
+      console.log(`Posting to : ${axios.defaults.baseURL}/api/signout`);
       const result = await axios({
         method: "POST",
-        url: "http://localhost:5001/api/signout",
+        url: "api/signout",
         headers: { token: token },
       });
 
